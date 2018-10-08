@@ -36,12 +36,14 @@ def setupArgs():
 def extractImages(args):
 
     capture = cv2.VideoCapture(args.fileName)
-
+    destDir = args.destDir
+    if not os.path.exists(destDir):
+        os.makedirs(destDir)
     successfullRead, imageFile = capture.read()
     totalFrames = int(capture.get(cv2.CAP_PROP_FRAME_COUNT)) 
     for frameNumber in tqdm(range(totalFrames)):
         if successfullRead:
-            cv2.imwrite(("{0}/frame{1}.{2}".format(args.destDir, frameNumber, args.extension)), imageFile) 
+            cv2.imwrite(("{0}/frame{1}.{2}".format(destDir, frameNumber, args.extension)), imageFile) 
         successfullRead, imageFile = capture.read()
 
 args = setupArgs()
